@@ -1,7 +1,7 @@
 <?php
   $css = <<<EOF
 <style>
-  .tableWrap {
+  div.table {
     background:#fff;
 	  border-bottom:1px solid #c8c8c8;
 	  border-left:1px solid #e4e4e4;
@@ -11,12 +11,12 @@
 	  box-shadow: 2px 1px 10px rgba(0,0,0, .07);
 	  margin: 0 0 10px 0;
   }
-  .tableWrap table {
+  div.table table {
     width: 100%;
     border-collapse:separate;
     border-spacing: 1px;
   }
-  .tableWrap table .head1 {
+  div.table table .th1 {
     background: #6B94B4;
 	  background: -moz-linear-gradient(top, #6B94B4 0%, #316594 100%);
 	  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6B94B4), color-stop(100%,#316594)); 
@@ -25,17 +25,17 @@
 	  border-bottom:#2B5780 1px solid;
 	  color: #fff;
   }
-	.tableWrap table .head1 a {
+	div.table table .th1 a {
 		text-decoration: none !important;
 		color: #fff;
 	}
-  .tableWrap table .head2 {
+  div.table table .th2 {
   }
-  .tableWrap table .row1 {
+  div.table table .td1 {
     padding: 5px;
     background: #FBFBFB;
   }
-  .tableWrap table .row2 {
+  div.table table .td2 {
     padding: 5px;
     background: #F1F1F1;
   }

@@ -15,7 +15,7 @@
         if (isset($fieldTypes[$noType])) unset($fieldTypes[$noType]);
       }
       foreach ($fieldTypes as $type => $properties) { ?>
-       <option value="<?php echo $type; ?>" <?php if ($field['type'] == $type) echo 'selected="selected"'; ?>><?php echo $type; ?></option>
+       <option value="<?php echo $type; ?>" <?php if ($field['type'] == $type) echo 'selected="selected"'; ?>><?php echo i18n_r(TheMatrix::FILE.'/'.strtoupper($type).'_FIELD'); ?></option>
     <?php } ?>
     </select>
     

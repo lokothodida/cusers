@@ -136,6 +136,9 @@ $i18n = array(
   'RESET' => 'Reset',
   'RESTORE' => 'Restore',
   'ALLOW_GUESTS' => 'Allow Guests',
+  'COMPATIBILITY' => 'Compatibility',
+  'COMPATIBILITY_SUCCESS' => 'Compatibility issues resolved.',
+  'COMPATIBILITY_ERROR' => 'Error resolving compatibility issues.',
   
   // dependencies
   'MISSING_DEPENDENCIES' => 'Missing Dependencies',

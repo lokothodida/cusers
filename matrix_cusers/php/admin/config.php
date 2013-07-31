@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     $this->matrix->getAdminError(i18n_r(self::FILE.'/CONFIG_UPDATESUCCESS'), true, true, $undo);
     
     // fix users schema
-    $this->usersSchema['fields']['level']['options'] = $update['new']['levels']['@cdata'];
+    $this->usersSchema['fields']['level']['options'] = $update['new']['levels'];
     
     // modify the schemas
     $this->matrix->modSchema(self::TABLE_USERS, $this->usersSchema);
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     $this->matrix->getAdminError(i18n_r(self::FILE.'/PAGES_UPDATEERROR'), false);
     
     // fix users schema
-    $this->usersSchema['fields']['level']['options'] = $update['new']['levels']['@cdata'];
+    $this->usersSchema['fields']['level']['options'] = $update['new']['levels'];
     
     // modify the schemas
     $this->matrix->modSchema(self::TABLE_USERS, $this->usersSchema);

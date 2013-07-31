@@ -13,9 +13,6 @@ class MatrixCUsers {
   const SEARCHID     = 'cuser:';
   
   /* properties */
-  public  $title;
-  public  $desc;
-  public  $sidebarLabel;
   public  $users;
   public  $parser;
   private $uri;
@@ -34,10 +31,16 @@ class MatrixCUsers {
   /* methods */
   # constructor
   public function __construct() {
-    // plugin
-    $this->title = i18n_r(self::FILE.'/PLUGIN_TITLE');
-    $this->desc = i18n_r(self::FILE.'/PLUGIN_DESC');
-    $this->sidebarLabel = i18n_r(self::FILE.'/PLUGIN_SIDEBAR');
+    // plugin details
+    $this->plugin = array();
+    $this->plugin['id']          = self::FILE;
+    $this->plugin['name']        = i18n_r(self::FILE.'/PLUGIN_TITLE');
+    $this->plugin['version']     = self::VERSION;
+    $this->plugin['author']      = self::AUTHOR;
+    $this->plugin['url']         = self::URL;
+    $this->plugin['description'] = i18n_r(self::FILE.'/PLUGIN_DESC');
+    $this->plugin['page']        = self::PAGE;
+    $this->plugin['sidebar']     = i18n_r(self::FILE.'/PLUGIN_SIDEBAR');
     
     // check for dependencies
     if ($this->checkDependencies()) {
@@ -120,6 +123,14 @@ class MatrixCUsers {
     }
   }
   
+  # get plugin info
+  public function pluginInfo($info) {
+    if (isset($this->plugin[$info])) {
+      return $this->plugin[$info];
+    }
+    else return null;
+  }
+  
   # check dependencies
   private function checkDependencies() {
     if (
@@ -148,8 +159,9 @@ class MatrixCUsers {
   }
   
   # get config
-  public function getConfig() {
-    return $this->config;
+  public function getConfig($key = null) {
+    if (isset($this->config[$key])) return $this->config[$key];
+    else return $this->config;
   }
   
   # get users
@@ -175,7 +187,6 @@ class MatrixCUsers {
   public function returnUsers() {
     return $this->users;
   }
-  
   
   # parse out the uri
   public function parseURI() {
@@ -558,6 +569,7 @@ class MatrixCUsers {
   
   # forms
   public function displayForm($type='login') {
+    ob_start();
     if ($type=='register') {
       include(GSPLUGINPATH.self::FILE.'/php/display/register.php');
     }
@@ -567,6 +579,9 @@ class MatrixCUsers {
     elseif ($type=='forgot-password') {
       include(GSPLUGINPATH.self::FILE.'/php/display/forgot_password.php');
     }
+    $content = ob_get_contents();
+    ob_end_clean();
+    return $content;
   }
   
   # create smilies
@@ -991,6 +1006,23 @@ class MatrixCUsers {
     }
   }
   
+  # content (placeholders)
+  public function content() {
+    global $content;
+    
+    $placeholders = $replacements = array();
+    
+    $placeholders[] = '(% cusers_form_login %)';
+    $placeholders[] = '(% cusers_form_register %)';
+    $placeholders[] = '(% cusers_form_forgot %)';
+    
+    $replacements[] = $this->displayForm('login');
+    $replacements[] = $this->displayForm('register');
+    $replacements[] = $this->displayForm('forgot-password');
+    
+    return str_replace($placeholders, $replacements, $content);
+  }
+  
   # admin
   public function admin() {
     if ($_GET['id'] == self::FILE) {
@@ -1096,44 +1128,48 @@ class MatrixCUsers {
   // search index
   public function searchIndex() {
     // for each item call i18n_search_index_item($id, $language, $creDate, $pubDate, $tags, $title, $content)
+    var_dump($this->users);
     foreach ($this->users as $item) {
+      // ensures guest user isn't indexed
+      if ($item['id'] != -1) {
 
-      // id is prefixed with the constant defined earlier (to make it unique)
-      $id = self::SEARCHID.$item['id'];
-    
-      // format date correctly (the two stages MUST be done - you cannot just use the raw UNIX stamp as-is
-      $date = date('j F Y', $item['registered']);
-      $date = strtotime($date);
+        // id is prefixed with the constant defined earlier (to make it unique)
+        $id = self::SEARCHID.$item['id'];
       
-      // explode tags list and add default tags to the array
-      $tags   = array('_user', '_users', '_cuser', '_cusers');
-      
-      // virtual tags for credate and pubdate and ensuring our item is in MatrixBlog
-      $tags[] = '_cre_'.date('Y',  $item['registered']);
-      $tags[] = '_cre_'.date('Ym', $item['registered']);
-      $tags[] = '_pub_'.date('Y',  $item['registered']);
-      $tags[] = '_pub_'.date('Ym', $item['registered']);
- 
-      // content (other user fields)
-      $fieldsSchema = $this->usersSchema['fields'];
-      $content = array();
-      foreach ($item as $field => $value) {
-        if ($field != 'password' && $fieldsSchema[$field]['index'] == 1) {
-          $content[] = $value;
-          
-          // add to tags
-          if (strlen($value) < 50) {
-            $tags[] = '_'.$field.'_'.$value;
+        // format date correctly (the two stages MUST be done - you cannot just use the raw UNIX stamp as-is
+        $date = date('j F Y', $item['registered']);
+        $date = strtotime($date);
+        
+        // explode tags list and add default tags to the array
+        $tags   = array('_user', '_users', '_cuser', '_cusers');
+        
+        // virtual tags for credate and pubdate and ensuring our item is in MatrixBlog
+        $tags[] = '_cre_'.date('Y',  $item['registered']);
+        $tags[] = '_cre_'.date('Ym', $item['registered']);
+        $tags[] = '_pub_'.date('Y',  $item['registered']);
+        $tags[] = '_pub_'.date('Ym', $item['registered']);
+   
+        // content (other user fields)
+        $fieldsSchema = $this->usersSchema['fields'];
+        $content = array();
+        foreach ($item as $field => $value) {
+          if ($field != 'password' && $fieldsSchema[$field]['index'] == 1) {
+            $content[] = $value;
+            
+            // add to tags
+            if (strlen($value) < 50) {
+              $tags[] = '_'.$field.'_'.$value;
+            }
           }
         }
+        $content = implode("\n", $content);
+        
+        // format tags correctly for i18n search
+        $tags = $this->matrix->formatTags($tags);
+        
+        // finally index the item
+        i18n_search_index_item($id, $lang=null, $date, $date, $tags, $item['displayname'], $content);
       }
-      $content = implode("\n", $content);
-      
-      // format tags correctly for i18n search
-      $tags = $this->matrix->formatTags($tags);
-      
-      // finally index the item
-      i18n_search_index_item($id, $lang=null, $date, $date, $tags, $item['displayname'], $content);
     }
   }
   

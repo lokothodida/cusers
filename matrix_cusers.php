@@ -16,22 +16,35 @@
 
 # register plugin
   register_plugin(
-    $mcusers::FILE,           // id
-    $mcusers->title,          // name
-    $mcusers::VERSION,        // version
-    $mcusers::AUTHOR,         // author
-    $mcusers::URL,            // url
-    $mcusers->desc,           // description
-    $mcusers::PAGE,           // page type - on which admin tab to display
-    array($mcusers, 'admin')  // administration function
+    $mcusers->pluginInfo('id'),
+    $mcusers->pluginInfo('name'),
+    $mcusers->pluginInfo('version'),
+    $mcusers->pluginInfo('author'),
+    $mcusers->pluginInfo('url'),
+    $mcusers->pluginInfo('description'),
+    $mcusers->pluginInfo('page'),
+    array($mcusers, 'admin')
   );
 
 # activate actions/filters
   # front-end
-    add_action('error-404', array($mcusers, 'display')); // display for plugin
+    add_action('error-404', array($mcusers, 'display'));
+    add_filter('content',   array($mcusers, 'content'));
   # back-end
-    add_action($mcusers::PAGE.'-sidebar', 'createSideMenu' , array($mcusers::FILE, $mcusers->sidebarLabel)); // sidebar link
+    add_action($mcusers::PAGE.'-sidebar', 'createSideMenu' , array($mcusers->pluginInfo('id'), $mcusers->pluginInfo('sidebar'))); // sidebar link
     add_action('search-index',   array($mcusers, 'searchIndex'));
     add_filter('search-item',    array($mcusers, 'searchItem'));
     add_filter('search-display', array($mcusers, 'searchDisplay'));
+    
+# functions
+  # output form (login/register/forgot password)
+  function cusers_form($type='login') {
+    global $mcusers;
+    echo $mcusers->displayForm($type);
+  }
+  # check if viewer is logged in
+  function cusers_logged_in() {
+    global $mcusers;
+    return $mcusers->loggedIn();
+  }
 ?>
