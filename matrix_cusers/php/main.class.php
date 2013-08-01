@@ -738,23 +738,23 @@ class MatrixCUsers {
     <?php echo $this->config['header-css']; ?>
     <div class="pajinate">
       <div class="page_navigation"></div>
-      <div class="tableWrap">
+      <div class="table">
         <table>
           <thead>
             <tr>
-              <th class="sort head1" data-sort="displayname"><?php echo i18n_r(self::FILE.'/DISPLAYNAME'); ?></th>
-              <th class="sort head1" data-sort="username"><?php echo i18n_r(self::FILE.'/USERNAME'); ?></th>
-              <th class="sort head1" data-sort="email"><?php echo i18n_r(self::FILE.'/EMAIL'); ?></th>
-              <th class="sort head1" data-sort="email"><?php echo i18n_r(self::FILE.'/AVATAR'); ?></th>
+              <th class="sort th1" data-sort="displayname"><?php echo i18n_r(self::FILE.'/DISPLAYNAME'); ?></th>
+              <th class="sort th1" data-sort="username"><?php echo i18n_r(self::FILE.'/USERNAME'); ?></th>
+              <th class="sort th1" data-sort="email"><?php echo i18n_r(self::FILE.'/EMAIL'); ?></th>
+              <th class="sort th1" data-sort="email"><?php echo i18n_r(self::FILE.'/AVATAR'); ?></th>
             </tr>
           </thead>
           <tbody class="content">
             <?php foreach ($users as $user) { ?>
             <tr data-displayname="<?php echo $user['displayname']; ?>" data-username="<?php echo $user['username']; ?>" data-email="<?php echo $user['email']; ?>">  
-              <td class="row1"><a href="<?php echo $this->getProfileURL($user['username']); ?>"><?php echo $user['displayname']; ?></a></td>
-              <td class="row2"><?php echo $user['username']; ?></td>
-              <td class="row1"><a href="malto:<?php echo $user['email']; ?>"><?php echo $user['email']; ?></a></td>
-              <td class="row2" style="text-align: center;"><?php echo $this->displayAvatar($user, 25); ?></td>
+              <td class="td1"><a href="<?php echo $this->getProfileURL($user['username']); ?>"><?php echo $user['displayname']; ?></a></td>
+              <td class="td2"><?php echo $user['username']; ?></td>
+              <td class="td1"><a href="malto:<?php echo $user['email']; ?>"><?php echo $user['email']; ?></a></td>
+              <td class="td2" style="text-align: center;"><?php echo $this->displayAvatar($user, 25); ?></td>
             </tr>
             <?php } ?>
           </tbody>
@@ -859,29 +859,29 @@ class MatrixCUsers {
       ?>
       <?php echo $this->config['header-css']; ?>
       <form method="post">
-      <div class="tableWrap"> 
+      <div class="table"> 
         <table>
           <thead>
             <tr>
-              <th class="head1" colspan="100%"><?php echo i18n_r(self::FILE.'/CORE'); ?></th>
+              <th class="th1" colspan="100%"><?php echo i18n_r(self::FILE.'/CORE'); ?></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/USERNAME'); ?></th>
-              <td class="row1" style="width: 80%;"><input type="text" class="text" readonly value="<?php echo $user['username']; ?>"/></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/USERNAME'); ?></th>
+              <td class="td1" style="width: 80%;"><input type="text" class="text" readonly value="<?php echo $user['username']; ?>"/></td>
             </tr>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/EMAIL'); ?></th>
-              <td class="row1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'email', $user['email']); ?></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/EMAIL'); ?></th>
+              <td class="td1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'email', $user['email']); ?></td>
             </tr>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/PASSWORD'); ?></th>
-              <td class="row1" style="width: 80%;"><input type="password" class="text" name="password" placeholder="<?php echo i18n_r(self::FILE.'/PASSWORD'); ?>"></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/PASSWORD'); ?></th>
+              <td class="td1" style="width: 80%;"><input type="password" class="text" name="password" placeholder="<?php echo i18n_r(self::FILE.'/PASSWORD'); ?>"></td>
             </tr>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/CONFIRM'); ?></th>
-              <td class="row1" style="width: 80%;"><input type="password" class="text" name="confirm" placeholder="<?php echo i18n_r(self::FILE.'/CONFIRM'); ?>"></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/CONFIRM'); ?></th>
+              <td class="td1" style="width: 80%;"><input type="password" class="text" name="confirm" placeholder="<?php echo i18n_r(self::FILE.'/CONFIRM'); ?>"></td>
             </tr>
           <?php
             if ($user['id'] != 0) {
@@ -889,8 +889,8 @@ class MatrixCUsers {
           ?>
           
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/LEVEL'); ?></th>
-              <td class="row1" style="width: 80%;"><p><?php $this->matrix->displayField(self::TABLE_USERS, 'level', $user['level']); ?></p></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/LEVEL'); ?></th>
+              <td class="td1" style="width: 80%;"><p><?php $this->matrix->displayField(self::TABLE_USERS, 'level', $user['level']); ?></p></td>
             </tr>
           
           
@@ -903,8 +903,8 @@ class MatrixCUsers {
           ?>
           
           <tr>
-            <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/LEVEL'); ?></th>
-            <td class="row1" style="width: 80%;">
+            <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/LEVEL'); ?></th>
+            <td class="td1" style="width: 80%;">
               <select name="level">
                 <?php foreach ($levels as $key => $level) { ?>
                 <option value="<?php echo $key; ?>" <?php if ($user['level'] == $key) echo 'selected="selected"'; ?>><?php echo $level; ?></option>
@@ -919,21 +919,21 @@ class MatrixCUsers {
           </tbody>
           <thead>
             <tr>
-              <th class="head1" colspan="100%"><?php echo i18n_r(self::FILE.'/DISPLAY'); ?></th>
+              <th class="th1" colspan="100%"><?php echo i18n_r(self::FILE.'/DISPLAY'); ?></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/DISPLAYNAME'); ?></th>
-              <td class="row1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'displayname', $user['displayname']); ?></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/DISPLAYNAME'); ?></th>
+              <td class="td1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'displayname', $user['displayname']); ?></td>
             </tr>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/AVATAR'); ?></th>
-              <td class="row1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'avatar', $user['avatar']); ?></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/AVATAR'); ?></th>
+              <td class="td1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'avatar', $user['avatar']); ?></td>
             </tr>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/SIGNATURE'); ?></th>
-              <td class="row1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'signature', $user['signature']); ?></td>
+              <th class="td2" style="width: 20%;"><?php echo i18n_r(self::FILE.'/SIGNATURE'); ?></th>
+              <td class="td1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, 'signature', $user['signature']); ?></td>
             </tr>
           </tbody>
           <?php
@@ -946,7 +946,7 @@ class MatrixCUsers {
           ?>
           <thead>
             <tr>
-              <th class="head1" colspan="100%"><?php echo i18n_r(self::FILE.'/CUSTOM'); ?></th>
+              <th class="th1" colspan="100%"><?php echo i18n_r(self::FILE.'/CUSTOM'); ?></th>
             </tr>
           </thead>
           <?php
@@ -955,8 +955,8 @@ class MatrixCUsers {
           ?>
           <tbody>
             <tr>
-              <th class="row2" style="width: 20%;"><?php echo $field['label']; ?></th>
-              <td class="row1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, $field['name'], $user[$field['name']]); ?></td>
+              <th class="td2" style="width: 20%;"><?php echo $field['label']; ?></th>
+              <td class="td1" style="width: 80%;"><?php $this->matrix->displayField(self::TABLE_USERS, $field['name'], $user[$field['name']]); ?></td>
             </tr>
           </tbody>
           <?php }
