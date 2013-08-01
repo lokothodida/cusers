@@ -131,6 +131,13 @@ class MatrixCUsers {
     else return null;
   }
   
+  # init
+  public function init() {
+    if ($this->checkDependencies()) {
+      i18n_init();
+    }
+  }
+  
   # check dependencies
   private function checkDependencies() {
     if (
@@ -979,8 +986,11 @@ class MatrixCUsers {
   
   # display
   public function display() {
+    global $data_index;
+    
     if ($this->checkDependencies()) {
-      global $data_index;
+      // ensures that the session variable exists
+      $this->matrix->sessionStart();
       
       // initialize i18n
       i18n_init();
@@ -1007,8 +1017,7 @@ class MatrixCUsers {
   }
   
   # content (placeholders)
-  public function content() {
-    global $content;
+  public function content($content) {
     
     $placeholders = $replacements = array();
     

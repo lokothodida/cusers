@@ -28,8 +28,9 @@
 
 # activate actions/filters
   # front-end
-    add_action('error-404', array($mcusers, 'display'));
-    add_filter('content',   array($mcusers, 'content'));
+    add_action('error-404',    array($mcusers, 'display'));
+    add_filter('content',      array($mcusers, 'content'));
+    add_action('theme-header', array($mcusers, 'init'), array($thisfile));
   # back-end
     add_action($mcusers::PAGE.'-sidebar', 'createSideMenu' , array($mcusers->pluginInfo('id'), $mcusers->pluginInfo('sidebar'))); // sidebar link
     add_action('search-index',   array($mcusers, 'searchIndex'));
