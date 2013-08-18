@@ -22,8 +22,9 @@
 <!--heading-->
 <h3 class="floated"><?php echo i18n_r(self::FILE.'/MANAGE_USER'); ?></h3>
 <div class="edit-nav">
-  <a href="load.php?id=<?php echo self::FILE; ?>"><?php echo i18n_r(self::FILE.'/BACK'); ?></a>
-  <a href="#" id="metadata_toggle"><?php echo i18n_r(self::FILE.'/OPTIONS'); ?></a>
+  <?php if (count($this->usersSchema['fields']) > 10) { ?>
+    <a href="#" id="metadata_toggle"><?php echo i18n_r(self::FILE.'/OPTIONS'); ?></a>
+  <?php } ?>
   <div class="clear"></div>
 </div>
 
@@ -54,11 +55,9 @@
           if (isset($newfields[$field])) unset($newfields[$field]);
         }
         $total = ceil(count($newfields));
-        $mid = $total/2;
+        $mid = ceil($total/2);
         $first = array_slice($newfields, 0, $mid);
         $second = array_slice($newfields, $mid, $total);
-        
-      
       ?>
       <div class="leftopt">
         <?php
@@ -87,7 +86,9 @@
     
     <p><?php $this->matrix->displayField(self::TABLE_USERS, 'signature', $user['signature']); ?></p>
     
-    <input type="submit" class="submit" name="save" value="<?php echo i18n_r('BTN_SAVECHANGES'); ?>">
+    <input type="submit" class="submit" name="save" value="<?php echo i18n_r('BTN_SAVECHANGES'); ?>">&nbsp;&nbsp;
+    / 
+    <a href="load.php?id=<?php echo self::FILE; ?>" class="cancel"><?php echo i18n_r(self::FILE.'/BACK'); ?></a>
   </form>
 
 <!--scripts-->

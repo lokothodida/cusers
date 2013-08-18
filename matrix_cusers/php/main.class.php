@@ -2,15 +2,16 @@
 
 class MatrixCUsers {
   /* constants */
-  const FILE         = 'matrix_cusers';
-  const ID           = 'cusers';
-  const VERSION      =  '1.01';
-  const AUTHOR       = 'Lawrence Okoth-Odida';
-  const PAGE         = 'plugins';
-  const URL          = 'http://lokida.co.uk/';
-  const TABLE_USERS  = 'cusers';
-  const TABLE_CONFIG = 'cusers-config';
-  const SEARCHID     = 'cuser:';
+  const FILE           = 'matrix_cusers';
+  const ID             = 'cusers';
+  const VERSION        = '1.02';
+  const AUTHOR         = 'Lawrence Okoth-Odida';
+  const PAGE           = 'plugins';
+  const URL            = 'http://lokida.co.uk/';
+  const TABLE_USERS    = 'cusers';
+  const TABLE_CONFIG   = 'cusers-config';
+  const SEARCHID       = 'cuser:';
+  const VERSION_MATRIX = '1.03';
   
   /* properties */
   public  $users;
@@ -101,7 +102,6 @@ class MatrixCUsers {
       $this->config['salt'] = $config['salt'];
       $this->config['captcha'] = (bool) $config['captcha'];
       $this->config['captcha-config'] = $this->matrix->explodeTrim("\n", $config['captcha-config']);
-      $this->matrix->salt($config['salt']);
       
       // uri
       
@@ -141,7 +141,7 @@ class MatrixCUsers {
   # check dependencies
   private function checkDependencies() {
     if (
-      (class_exists('TheMatrix') && TheMatrix::VERSION >= '1.02') &&
+      (class_exists('TheMatrix') && TheMatrix::VERSION >= self::VERSION_MATRIX) &&
       function_exists('i18n_init') && 
       function_exists('get_i18n_search_results')
     ) return true;
@@ -152,8 +152,8 @@ class MatrixCUsers {
   private function missingDependencies() {
     $dependencies = array();
   
-    if (!class_exists('TheMatrix') || (class_exists('TheMatrix') && TheMatrix::VERSION < '1.02')) {
-      $dependencies[] = array('name' => 'The Matrix (1.02+)', 'url' => 'https://github.com/n00dles/DM_matrix/');
+    if (!class_exists('TheMatrix') || (class_exists('TheMatrix') && TheMatrix::VERSION < self::VERSION_MATRIX)) {
+      $dependencies[] = array('name' => 'The Matrix ('.self::VERSION_MATRIX.'+)', 'url' => 'https://github.com/n00dles/DM_matrix/');
     }
     if (!function_exists('i18n_init')) {
       $dependencies[] = array('name' => 'I18N (3.2.3+)', 'url' => 'http://get-simple.info/extend/plugin/i18n/69/');
@@ -221,6 +221,12 @@ class MatrixCUsers {
     
     $this->uri = $tmpuri;
     return $tmpuri;
+  }
+  
+  # check password
+  public function checkPassword($string, $password) {
+    if (sha1($string) == substr($password, -40, 40)) return true;
+    else return false;
   }
   
   # salt and sha1
@@ -1083,11 +1089,12 @@ class MatrixCUsers {
           
           <!--template-->
           <form method="post">
-            <textarea name="edit-template" class="codeeditor DM_codeeditor text" id="post-edit-template"><?php echo $template; ?></textarea>
             <?php
-              // get codemirror script
-              $this->matrix->initialiseCodeMirror();
-              $this->matrix->instantiateCodeMirror('edit-template');
+              $params = array();
+              $params['properties'] = 'name="edit-template" class="codeeditor DM_codeeditor text" id="post-edit-template"';
+              $params['value'] = $template;
+              $params['id'] = 'post-edit-template';
+              $this->matrix->getEditor($params);
             ?>
             <input type="submit" class="submit" value="<?php echo i18n_r('BTN_SAVECHANGES'); ?>"/>
           </form>

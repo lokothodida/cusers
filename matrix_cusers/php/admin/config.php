@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     
     // fix users schema
     $this->usersSchema['fields']['level']['options'] = $update['new']['levels'];
+    $this->usersSchema['fields']['password']['salt'] = $update['new']['salt'];
     
     // modify the schemas
     $this->matrix->modSchema(self::TABLE_USERS, $this->usersSchema);
@@ -29,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     
     // fix users schema
     $this->usersSchema['fields']['level']['options'] = $update['new']['levels'];
+    $this->usersSchema['fields']['password']['salt'] = $update['new']['salt'];
     
     // modify the schemas
     $this->matrix->modSchema(self::TABLE_USERS, $this->usersSchema);
@@ -46,6 +48,7 @@ elseif (isset($_GET['undo'])) {
     // fix users schema
     $record = $this->matrix->recordExists(self::TABLE_CONFIG, 0);
     $this->usersSchema['fields']['level']['options'] = $record['levels'];
+    $this->usersSchema['fields']['password']['salt'] = $record['salt'];
     
     // modify the schemas
     $this->matrix->modSchema(self::TABLE_USERS, $this->usersSchema);

@@ -25,7 +25,7 @@ $users = $this->matrix->query('SELECT * FROM '.self::TABLE_USERS.' ORDER BY id A
 <div class="edit-nav">
   <a href="load.php?id=<?php echo self::FILE; ?>&smilies"><?php echo i18n_r(self::FILE.'/SMILIES'); ?></a>
   <a href="load.php?id=<?php echo self::FILE; ?>&config"><?php echo i18n_r(self::FILE.'/CONFIG'); ?></a>
-  <a href="load.php?id=<?php echo self::FILE; ?>&fields"><?php echo i18n_r(self::FILE.'/FIELDS'); ?></a>
+  <a href="load.php?id=<?php echo TheMatrix::FILE; ?>&table=<?php echo self::TABLE_USERS; ?>&fields" target="_blank"><?php echo i18n_r(self::FILE.'/FIELDS'); ?></a>
   <a href="load.php?id=<?php echo self::FILE; ?>&refresh"><?php echo i18n_r(self::FILE.'/REFRESH_INDEX'); ?></a>
   <a href="load.php?id=<?php echo self::FILE; ?>&add"><?php echo i18n_r(self::FILE.'/USER_ADD'); ?></a>
   <a href="load.php?id=<?php echo self::FILE; ?>&template=profile"><?php echo i18n_r(self::FILE.'/PROFILE'); ?></a>
@@ -89,7 +89,7 @@ $users = $this->matrix->query('SELECT * FROM '.self::TABLE_USERS.' ORDER BY id A
         <td><?php echo $user['username']; ?></td>
         <td><a href="malto:<?php echo $user['email']; ?>"><?php echo $user['email']; ?></a></td>
         <td><?php echo $this->levels[$user['level']]; ?></td>
-        <td><?php echo date('r', $user['registered']); ?></td>
+        <td><?php echo $user['registered']; ?></td>
         <td style="text-align: right;"><a class="cancel" href="<?php echo $this->getProfileURL($user['username']); ?>" target="_blank">#</a></td>
       </tr>
     <?php } ?>

@@ -66,13 +66,18 @@ EOF;
   // main cusers table
     $tables[self::TABLE_USERS]['name'] = self::TABLE_USERS;
     $tables[self::TABLE_USERS]['oldname'] = 'CU_users';
+    $levels = $this->levels;
+    foreach ($levels as $key => $level) {
+      $levels[$key] = '['.$key.']['.$level.']';
+    }
+    
     $tables[self::TABLE_USERS]['fields'] = array(
       array(
         'oldname' => 'user_display',
         'name' => 'displayname',
         'label' => i18n_r(self::FILE.'/DISPLAYNAME'),
         'required' => 'required',
-        'desc' => i18n_r(self::FILE.'/DISPLAYNAME'),
+        'placeholder' => i18n_r(self::FILE.'/DISPLAYNAME'),
         'type' => 'textlong',
         'index' => 1,
       ),
@@ -82,7 +87,7 @@ EOF;
         'label' => i18n_r(self::FILE.'/USERNAME'),
         'type' => 'slug',
         'required' => 'required',
-        'desc' => i18n_r(self::FILE.'/USERNAME'),
+        'placeholder' => i18n_r(self::FILE.'/USERNAME'),
         'index' => 1,
         'class' => 'leftopt',
       ),
@@ -93,7 +98,7 @@ EOF;
         'type' => 'password',
         'required' => 'required',
         'tableview' => 0,
-        'desc' => i18n_r(self::FILE.'/PASSWORD'),
+        'placeholder' => i18n_r(self::FILE.'/PASSWORD'),
         'class' => 'leftopt',
       ),
       array(
@@ -101,7 +106,7 @@ EOF;
         'name' => 'level',
         'label' => i18n_r(self::FILE.'/LEVEL'),
         'type' => 'dropdowncustomkey',
-        'options' => implode("\n", $this->levels),
+        'options' => implode("\n", $levels),
         'default' => 0,
         'class' => 'leftopt',
       ),
@@ -110,7 +115,7 @@ EOF;
         'name' => 'email',
         'label' => i18n_r(self::FILE.'/EMAIL'),
         'type' => 'email',
-        'desc' => 'name@domain.com',
+        'placeholder' => 'name@domain.com',
         'required' => 'required',
         'index' => 1,
         'class' => 'rightopt',
@@ -120,7 +125,7 @@ EOF;
         'name' => 'avatar',
         'label' => i18n_r(self::FILE.'/AVATAR'),
         'type' => 'url',
-        'desc' => 'http://',
+        'placeholder' => 'http://',
         'class' => 'leftopt',
       ),
       array(
@@ -170,7 +175,7 @@ EOF;
         'label' => i18n_r(self::FILE.'/EMAIL'),
         'type' => 'email',
         'default' => 'name@domain.com',
-        'desc' => 'name@domain.com',
+        'placeholder' => 'name@domain.com',
         'required' => 'required',
         'class' => 'leftsec',
       ),
@@ -179,7 +184,7 @@ EOF;
         'label' => i18n_r(self::FILE.'/DATE_FORMAT'),
         'type' => 'text',
         'default' => 'r',
-        'desc' => i18n_r(self::FILE.'/DATE_FORMAT'),
+        'placeholder' => i18n_r(self::FILE.'/DATE_FORMAT'),
         'required' => 'required',
         'class' => 'leftsec',
       ),
@@ -215,7 +220,7 @@ EOF;
         'name' => 'captcha-config',
         'type' => 'intmulti',
         'default' => implode("\n", array(5, 30, -10, 10, 40)),
-        'other' => implode("\n", array(i18n_r(self::FILE.'/LENGTH'), i18n_r(self::FILE.'/FONT_SIZE'), i18n_r(self::FILE.'/ANGLE'), i18n_r(self::FILE.'/X_AXIS'), i18n_r(self::FILE.'/Y_AXIS'))),
+        'labels' => implode("\n", array(i18n_r(self::FILE.'/LENGTH'), i18n_r(self::FILE.'/FONT_SIZE'), i18n_r(self::FILE.'/ANGLE'), i18n_r(self::FILE.'/X_AXIS'), i18n_r(self::FILE.'/Y_AXIS'))),
         'rows' => 5,
         'class' => 'rightsec',
       ),
@@ -223,7 +228,7 @@ EOF;
         'name' => 'levels',
         'label' => i18n_r(self::FILE.'/LEVELS'),
         'type' => 'textarea',
-        'default' => implode("\n", $this->levels),
+        'default' => implode("\n", $levels),
         'class' => 'rightsec',
       ),
       array(
