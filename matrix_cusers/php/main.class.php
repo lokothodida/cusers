@@ -1042,6 +1042,8 @@ class MatrixCUsers {
   public function admin() {
     if ($_GET['id'] == self::FILE) {
       if ($this->checkDependencies()) {
+        $this->matrix = new TheMatrix;
+      
         // edit user
         if (isset($_GET['user']) && is_numeric($_GET['user'])) {
           include_once(GSPLUGINPATH.self::FILE.'/php/admin/user.php');
